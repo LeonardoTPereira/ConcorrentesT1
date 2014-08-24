@@ -4,8 +4,8 @@
 #include "parallelMonteCarlo.h"
 #include "parallelBorwein.h"
 #include "parallelGaussLegendre.h"
-
-#define method 5
+#include "blackscholes.h"
+#define method 6
 
 int main(int argc, char *argv[]){
 
@@ -27,6 +27,9 @@ int main(int argc, char *argv[]){
 			break;
 		case 5://Parallel Gauss-Legendre
 			parallelGaussLegendre();
+			break;
+		case 6://Black Scholes
+			blackScholes(100, 110, 10, 1, 1, 10);
 			break;
 	}
 
