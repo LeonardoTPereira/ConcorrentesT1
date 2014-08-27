@@ -30,7 +30,7 @@ void parallelMonteCarlo(){
 	{
 		result+=mCS[i]->result;
 	}
-
+	pthread_exit(NULL);
 	exit(EXIT_SUCCESS);
 	printf("oi");
 

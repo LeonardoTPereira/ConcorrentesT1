@@ -1,6 +1,6 @@
 #include "gaussLegendre.h"
 
-#define ITEMAX 100
+#define ITEMAX pow(10, 5)
 
 void gl()
 {
@@ -17,9 +17,9 @@ void gl()
     {
         an = a;
         //printf("an = %f  ", an);
-        a = ( a+b )/2.0;
+        a = ( an+b )/2.0;
 
-        b = sqrt( a*b );
+        b = sqrt( an*b );
         //calculoValores( &a, &b );
         //printf("a = %f  b = %f  ", a, b);
         t = t - p*pow( (an - a), 2.0 );
@@ -38,15 +38,4 @@ void gl()
     pi = pow( (a + b), 2.0 )/(4.0*t);
     
     printf( "PI: %lf\n", pi );
-}
-
-void calculoValores( double *a1, double *b1 )
-{
-    double a2, b2;
-
-    a2 = ( *a1+*b1 )/2.0;
-    b2 = sqrt( *a1*(*b1) );
-
-    *a1 = a2;
-    *b1 = b2;
 }

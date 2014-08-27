@@ -5,7 +5,9 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <math.h>
-#define NITER 100
+
+#define NTHREADS 2
+#define NITER pow(10,3)
 
 typedef struct{
 	double a;
@@ -18,7 +20,6 @@ typedef struct{
 void parallelGaussLegendre();
 
 void *calcAB(void *ptr);
-
 void *calcTP(void *ptr);
 
 #endif
