@@ -3,7 +3,7 @@
 void montecarlo()
 {
 	int niter = pow(10, 9);
-   	double x,y;
+  double x,y;
 	int i,count=0;
 	double z;
 	double pi;

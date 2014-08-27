@@ -1,62 +1,37 @@
 #include "parallelBorwein.h"
 
 void parallelBorwein(){
-	pthread_t thread1, thread2, thread3;
+	pthread_t thread[NTHREADS];
 
-	int ret1, ret2, ret3;
+	int ret[NTHREADS], i;
+
+	long double result = 0.0;
 	
-	borweinStruct *bs = NULL;
-	borweinStruct *bs1 = NULL;
-	borweinStruct *bs2 = NULL;
-
-
-	bs = (borweinStruct *)malloc(1*sizeof(borweinStruct));
-	bs1 = (borweinStruct *)malloc(1*sizeof(borweinStruct));
-	bs2 = (borweinStruct *)malloc(1*sizeof(borweinStruct));
+	borweinStruct *bs[NTHREADS];
 	
-	bs->start = 0;
-	bs->end = 300000000;
-	bs->position = 2;
-	
+	for( i = 0; i < NTHREADS; i++)
+	{
+		bs[i] = (borweinStruct *)calloc(1, sizeof(borweinStruct));
+		bs[i]->start = (MAXIT/NTHREADS) * i;
+		bs[i]->end = (MAXIT/NTHREADS) * (i+1);
+		ret[i] = pthread_create(&thread[i], NULL, borweinItself, (void*) bs[i]);
 
-	bs1->start = 300000001;
-	bs1->end = 600000000;
-	bs1->position = 1;
-
-	bs2->start = 600000001;
-	bs2->end = 1000000000;
-	bs2->position = 3;
-
-	ret1 = pthread_create(&thread1, NULL, borweinItself, (void*) bs1);
-
-	if(ret1){
-		fprintf(stderr,"Error - pthread_create() return code: %d\n",ret1);
-		exit(EXIT_FAILURE);
+		if(ret[i]){
+			fprintf(stderr,"Error - pthread_create() return code: %d\n",ret[i]);
+			exit(EXIT_FAILURE);
+		}
 	}
 
-	ret2 = pthread_create(&thread2, NULL, borweinItself, (void*) bs);
-	printf("oi\n");
-
-	if(ret2){
-		fprintf(stderr,"Error - pthread_create() return code: %d\n",ret2);
-		exit(EXIT_FAILURE);
+	for( i = 0; i < NTHREADS; i++)
+	{
+		pthread_join(thread[i], NULL);
 	}
-
-	ret3 = pthread_create(&thread3, NULL, borweinItself, (void*) bs2);
-	printf("oi\n");
-
-	if(ret3){
-		fprintf(stderr,"Error - pthread_create() return code: %d\n",ret3);
-		exit(EXIT_FAILURE);
+	for( i = 0; i < NTHREADS; i++)
+	{
+		result += bs[i]->result;
 	}
-
-	pthread_join(thread1, NULL);
-	pthread_join(thread2, NULL);
-	pthread_join(thread3, NULL);
-
 	printf("oi");
-	printf("result = %Lf\n", bs->result+bs1->result+bs2->result);
-	//printf("b = %Lf\n", *(long double*)num2);
+	printf("result = %Lf\n", result);
 	exit(EXIT_SUCCESS);
 	printf("oi");
 
@@ -76,7 +51,7 @@ void* borweinItself(void *ptr){
 	((borweinStruct*)ptr)->result = sum;
     //bs->result = sum;
 
-    printf("PI:\t%.20Lf\t%d\n", sum, bs->position);
+    printf("PI:\t%.20Lf\n", sum);
     //ptr = (void*)sum;
     return NULL;
 }

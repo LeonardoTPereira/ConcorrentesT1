@@ -6,11 +6,13 @@
 #include <pthread.h>
 #include <math.h>
 
+#define NTHREADS 4
+#define MAXIT pow(10, 9)
+
 typedef struct{
 	int start;
 	int end;
 	long double result;
-	int position;
 }borweinStruct;
 
 void parallelBorwein();

@@ -1,38 +1,35 @@
 #include "parallelMonteCarlo.h"
 
 void parallelMonteCarlo(){
-	pthread_t thread1, thread2;
+	pthread_t thread[NTHREADS];
 
-	int ret1, ret2;
+	double result = 0.0;
 
-	int num1[2];
+	int ret[NTHREADS], i;
 
-	num1[0] = 0;
-	num1[1] = 500;
-	
-	int num2[2];
+	monteCarloStruct *mCS[NTHREADS];
 
-	num2[0] = 500;
-	num2[1] = 1000;
+	for(i = 0; i < NTHREADS; i++)
+	{
+		mCS[i] = (monteCarloStruct *)calloc(1, sizeof(monteCarloStruct));
+		mCS[i]->size = (MAXIT/NTHREADS);
+		ret[i] = pthread_create(&thread[i], NULL, itself, (void*) mCS[i]);
 
-	ret1 = pthread_create(&thread1, NULL, itself, (void*) num1);
-
-	if(ret1){
-		fprintf(stderr,"Error - pthread_create() return code: %d\n",ret1);
-		exit(EXIT_FAILURE);
+		if(ret[i]){
+			fprintf(stderr,"Error - pthread_create() return code: %d\n",ret[i]);
+			exit(EXIT_FAILURE);
+		}
 	}
 
-	ret2 = pthread_create(&thread2, NULL, itself, (void*) num2);
-
-	if(ret2){
-		fprintf(stderr,"Error - pthread_create() return code: %d\n",ret2);
-		exit(EXIT_FAILURE);
+	for(i = 0; i < NTHREADS; i++)
+	{
+		pthread_join(thread[i], NULL);
 	}
 
-	pthread_join(thread1, NULL);
-	pthread_join(thread2, NULL);
-
-	printf("oi");
+	for(i = 0; i < NTHREADS; i++)
+	{
+		result+=mCS[i]->result;
+	}
 
 	exit(EXIT_SUCCESS);
 	printf("oi");
@@ -40,24 +37,22 @@ void parallelMonteCarlo(){
 }
 
 void *itself(void *ptr){
-	//int niter = pow(10, 4);
-	const int* start = (const int*) ptr;
-	printf("start %d\n", start[0]);
-	printf("finish %d\n", start[1]);
+	monteCarloStruct *mCS = (monteCarloStruct*) ptr;
+	printf("size %d\n", mCS->size);
    	double x,y;
 	int i,count=0;
 	double z;
-	double pi;
 
 	srand(time(NULL));
 	count=0;
-	for ( i=start[0]; i<start[1]; i++) {
+	for ( i=0; i<mCS->size; i++) {
     	x = (double)rand()/RAND_MAX;
     	y = (double)rand()/RAND_MAX;
     	z = x*x+y*y;
     	if (z<=1) count++;
     }
-   	pi=(double)count/(start[1]-start[0])*4;
-   	printf("%f\n", pi);
+
+   	mCS->result = (double)count/(mCS->size)*4;
+   	printf("%f\n", mCS->result);
    	return NULL;
 }
