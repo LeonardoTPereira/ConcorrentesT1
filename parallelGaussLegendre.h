@@ -5,9 +5,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <math.h>
-
-#define NTHREADS 2
-#define NITER pow(10,3)
+#include "utils.h"
 
 typedef struct{
 	double a;

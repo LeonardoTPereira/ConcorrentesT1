@@ -1,6 +1,7 @@
 #include "parallelMonteCarlo.h"
 
 void parallelMonteCarlo(){
+	printf("chamou saporran\n");
 	pthread_t thread[NTHREADS];
 
 	double result = 0.0;
@@ -10,7 +11,8 @@ void parallelMonteCarlo(){
 	monteCarloStruct *mCS[NTHREADS];
 
 	for(i = 0; i < NTHREADS; i++)
-	{
+	{	
+		printf("adicionado %d thread\n", i);
 		mCS[i] = (monteCarloStruct *)calloc(1, sizeof(monteCarloStruct));
 		mCS[i]->size = (MAXIT/NTHREADS);
 		ret[i] = pthread_create(&thread[i], NULL, itself, (void*) mCS[i]);
@@ -25,7 +27,7 @@ void parallelMonteCarlo(){
 	{
 		pthread_join(thread[i], NULL);
 	}
-
+	printf("saida\n");
 	for(i = 0; i < NTHREADS; i++)
 	{
 		result+=mCS[i]->result;
@@ -51,7 +53,7 @@ void *itself(void *ptr){
     	z = x*x+y*y;
     	if (z<=1) count++;
     }
-
+    printf("exit\n");
    	mCS->result = (double)count/(mCS->size)*4;
    	printf("%f\n", mCS->result);
    	return NULL;

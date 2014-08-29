@@ -19,7 +19,7 @@ void parallelGaussLegendre(){
 	glstruct->t = 0.25;
 	glstruct->p = 1;
 
-	for(i = 0; i < NITER; i++)
+	for(i = 0; i < MAXIT; i++)
 	{
 
 		ret[0] = pthread_create(&threads[0], NULL, calcAB, (void*) glstruct);

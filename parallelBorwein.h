@@ -5,9 +5,8 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <math.h>
+#include "utils.h"
 
-#define NTHREADS 2
-#define MAXIT pow(10, 9)
 
 typedef struct{
 	int start;
