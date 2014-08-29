@@ -2,11 +2,8 @@
 #include "rand_bm.c"
 
 void parallelMonteCarlo(){
-<<<<<<< HEAD
-	
-=======
-	printf("chamou saporran\n");
->>>>>>> 0a6657175cc535f6a43eec3cf0a6253eba08ada9
+
+
 	pthread_t thread[NTHREADS];
 
 	double result = 0.0;
@@ -58,14 +55,11 @@ void *itself(void *ptr){
     	if(!boxMullerRandom(&state))
     		count++;
     }
-<<<<<<< HEAD
-
    	mCS->result = (count/(double)mCS->size)*4;
    	//printf("%f\n", mCS->result);
-=======
+
     printf("exit\n");
    	mCS->result = (double)count/(mCS->size)*4;
    	printf("%f\n", mCS->result);
->>>>>>> 0a6657175cc535f6a43eec3cf0a6253eba08ada9
    	return NULL;
 }

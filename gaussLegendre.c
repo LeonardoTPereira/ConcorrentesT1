@@ -1,6 +1,6 @@
 #include "gaussLegendre.h"
 
-#define ITEMAX pow(10, 5)
+#define ITEMAX pow(10, 9)
 
 void gl()
 {
@@ -27,11 +27,11 @@ void gl()
         p = 2*p;
         //printf("p = %f\n", p);
         pi = pow( (a + b), 2.0 )/(4.0*t);
-        printf( "a: %lf\n", a );
+        /*printf( "a: %lf\n", a );
         printf( "b: %lf\n", b );
         printf( "t: %lf\n", t );
         printf( "p: %lld\n", p );
-        printf( "PI: %lf\n\n", pi );
+        printf( "PI: %lf\n\n", pi );*/
 
     }
     

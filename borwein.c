@@ -1,6 +1,6 @@
 #include "borwein.h"
 
-#define ITEMAX 100000000
+#define ITEMAX pow(10, 9)
 
 void borwein(){
     int k;
