@@ -1,7 +1,12 @@
 #include "parallelMonteCarlo.h"
+#include "rand_bm.c"
 
 void parallelMonteCarlo(){
+<<<<<<< HEAD
+	
+=======
 	printf("chamou saporran\n");
+>>>>>>> 0a6657175cc535f6a43eec3cf0a6253eba08ada9
 	pthread_t thread[NTHREADS];
 
 	double result = 0.0;
@@ -32,29 +37,35 @@ void parallelMonteCarlo(){
 	{
 		result+=mCS[i]->result;
 	}
+	result = result/NTHREADS;
+	printf("%f\n", result);
 	pthread_exit(NULL);
 	exit(EXIT_SUCCESS);
-	printf("oi");
 
 }
 
 void *itself(void *ptr){
 	monteCarloStruct *mCS = (monteCarloStruct*) ptr;
-	printf("size %d\n", mCS->size);
-   	double x,y;
-	int i,count=0;
-	double z;
 
-	srand(time(NULL));
+	int i,count=0;
+
+	struct BoxMullerState state;
+
+	initBoxMullerState(&state);
+	
 	count=0;
 	for ( i=0; i<mCS->size; i++) {
-    	x = (double)rand()/RAND_MAX;
-    	y = (double)rand()/RAND_MAX;
-    	z = x*x+y*y;
-    	if (z<=1) count++;
+    	if(!boxMullerRandom(&state))
+    		count++;
     }
+<<<<<<< HEAD
+
+   	mCS->result = (count/(double)mCS->size)*4;
+   	//printf("%f\n", mCS->result);
+=======
     printf("exit\n");
    	mCS->result = (double)count/(mCS->size)*4;
    	printf("%f\n", mCS->result);
+>>>>>>> 0a6657175cc535f6a43eec3cf0a6253eba08ada9
    	return NULL;
 }
