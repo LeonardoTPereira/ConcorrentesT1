@@ -5,11 +5,12 @@
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
+#include <gmp.h>
 
-#DEFINE e 2.71828
+#define e 2.71828
 
-double stdDev(long double trials[], long double mean, int M);
+mpf_t stdDev(mpf_t trials[], mpf_t mean, int M);
 
-void blackScholes(/*double S, double E, double r, double sigma, double T, int M*/);
+void blackScholes(mpf_t S, mpf_t E, mpf_t r, mpf_t sigma, mpf_t T, int M);
 
 #endif
