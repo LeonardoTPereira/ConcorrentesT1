@@ -61,7 +61,7 @@ void blackScholes(mpf_t S, mpf_t E, mpf_t r, mpf_t sigma, mpf_t T, int M)
 		mpf_mul (aux3,aux2, sigma);
 		mpf_mul (aux2,aux3, (mpf_t) rand());
 		mpf_add (aux3, aux1, aux2);
-		mpf_pow_ui(aux2, e, aux3);
+		mpf_pow_ui(aux2, (mpf_t) e, aux3);
 		mpf_mul (aux3, aux2, S);
 
 		t = aux3;
@@ -75,7 +75,7 @@ void blackScholes(mpf_t S, mpf_t E, mpf_t r, mpf_t sigma, mpf_t T, int M)
 		if(aux4 > 0){
 			mpf_sub (aux1, t, E);
 			//testar esse -r
-			mpf_mul (aux2, (-r), T)	
+			mpf_mul (aux2, (-r), T);	
 			mpf_pow_ui (aux2, e, aux2);
 			mpf_mul (trials[i], aux2, aux1);
 		}else
