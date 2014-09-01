@@ -9,7 +9,7 @@
 
 #define e 2.71828
 
-mpf_t stdDev(mpf_t trials[], mpf_t mean, int M);
+void stdDev(mpf_t trials[], mpf_t mean, int M, mpf_t *stddev);
 
 void blackScholes(mpf_t S, mpf_t E, mpf_t r, mpf_t sigma, mpf_t T, int M);
 

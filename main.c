@@ -4,7 +4,7 @@
 #include "parallelMonteCarlo.h"
 #include "parallelBorwein.h"
 #include "parallelGaussLegendre.h"
-// #include "blackscholes.h"
+#include "blackscholes.h"
 #define method 3
 
 int main(int argc, char *argv[]){
