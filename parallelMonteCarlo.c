@@ -1,5 +1,4 @@
 #include "parallelMonteCarlo.h"
-#include "rand_bm.c"
 
 void parallelMonteCarlo(){
 

@@ -4,13 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <sys/time.h>
-
-struct BoxMullerState
-{
-        double x1, x2, w, y1, y2;
-        int useLast;
-        struct drand48_data random;
-};
+#include "rand_bm.h"
 
 void initBoxMullerState(struct BoxMullerState* state)
 {
@@ -33,4 +27,30 @@ int boxMullerRandom(struct BoxMullerState* state)
                 return 1;
         else
                 return 0;
+}
+
+double boxMullerRandom2(struct BoxMullerState* state)
+{
+        if (state->useLast)
+        {
+                state->y1 = state->y2;
+                state->useLast = 0;
+        }
+        else
+        {
+                do
+                {
+                        drand48_r(&state->random, &state->x1);
+                        state->x1 = 2.0 * state->x1 - 1.0;
+                        drand48_r(&state->random, &state->x2);
+                        state->x2 = 2.0 * state->x2 - 1.0;
+                        state->w = state->x1 * state->x1 + state->x2 * state->x2;
+                }
+                while (state->w >= 1.0);
+                state->w = sqrt((-2.0 * log(state->w)) / state->w);
+                state->y1 = state->x1 * state->w;
+                state->y2 = state->x2 * state->w;
+                state->useLast = 1;
+                }
+        return state->y1;
 }

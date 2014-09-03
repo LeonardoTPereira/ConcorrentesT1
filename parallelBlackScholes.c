@@ -1,4 +1,4 @@
-#include "blackscholes.h"
+#include "parallelBlackScholes.h"
 double stdDev(long double trials[], long double mean, int M)
 {
 	double stddev = 0.0;

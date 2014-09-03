@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include "utils.h"
+#include "rand_bm.h"
 
 typedef struct{
 	int size;
