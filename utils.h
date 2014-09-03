@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define NTHREADS 4
+#define NTHREADS 8
 #define MAXIT pow(10, 9)
 
 #endif

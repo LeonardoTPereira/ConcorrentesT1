@@ -40,6 +40,7 @@ void parallelGaussLegendre(){
 		pthread_join(threads[1], NULL);
 
 		pi = pow( (glstruct->a + glstruct->b), 2.0 )/(4.0*glstruct->t);
+		pthread_exit(NULL);
 
 	}
 	
