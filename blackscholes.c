@@ -1,4 +1,5 @@
 #include "blackscholes.h"
+/*Calculates the standard deviation from the results given by the Black Scholes trials*/
 double stdDev(double trials[], double mean, int M)
 {
 	double stddev = 0.0;
@@ -20,6 +21,7 @@ void blackScholes(double S, double E, double r, double sigma, double T, int M)
 	struct BoxMullerState state;
 	initBoxMullerState(&state);
 	
+	/*Calculates the trials from Black Scholes*/
 	for(i = 0; i < M; i++)
 	{
 		t = S*exp((r-((1.0/2.0)*pow(sigma, 2.0)))*T + sigma*sqrt(T)*boxMullerRandom2(&state));
@@ -30,6 +32,7 @@ void blackScholes(double S, double E, double r, double sigma, double T, int M)
 			trials[i] = 0.0;
 		mean += trials[i];
 	}
+	/*Calculates mean, standard deviation and the confidence of Black Scholes trials*/
 	mean = mean/(double)M;
 	stddev = stdDev(trials, mean, M);
 	confwidth = 1.96*stddev/sqrt(M);

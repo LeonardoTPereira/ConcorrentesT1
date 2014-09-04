@@ -16,6 +16,7 @@ void initBoxMullerState(struct BoxMullerState* state)
 	state->random.__x[0] = now.tv_usec;
 }
 
+/*Calculates a pseudo-random number and return a 1 or 0 based on the result, as it would be in the Monte Carlo algorithm*/
 int boxMullerRandom(struct BoxMullerState* state)
 {
         drand48_r(&state->random, &state->x1);
@@ -29,6 +30,7 @@ int boxMullerRandom(struct BoxMullerState* state)
                 return 0;
 }
 
+/*Calculates a pseudo-random number*/
 double boxMullerRandom2(struct BoxMullerState* state)
 {
         if (state->useLast)

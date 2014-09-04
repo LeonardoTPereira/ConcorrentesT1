@@ -11,6 +11,7 @@ void parallelGaussLegendre(){
 
 	GaussLegStruct *glstruct;
 
+	/*Allocate structure and initialize variables*/
 	glstruct = (GaussLegStruct*)calloc(1, sizeof(GaussLegStruct));
 
 	glstruct->a = 1;
@@ -19,6 +20,7 @@ void parallelGaussLegendre(){
 	glstruct->t = 0.25;
 	glstruct->p = 1;
 
+	/*Creates the threads to calculate each part of the algorithm at each iteration, until the algorithm is over*/
 	for(i = 0; i < MAXIT; i++)
 	{
 
@@ -36,14 +38,13 @@ void parallelGaussLegendre(){
 			exit(EXIT_FAILURE);
 		}
 
+		/*Wait for both threads to finish*/
 		pthread_join(threads[0], NULL);
 		pthread_join(threads[1], NULL);
-
-		pi = pow( (glstruct->a + glstruct->b), 2.0 )/(4.0*glstruct->t);
 		pthread_exit(NULL);
 
 	}
-	
+	/*Calculates PI using Gauss-Legendre formula*/
 	pi = pow( (glstruct->a + glstruct->b), 2.0 )/(4.0*glstruct->t);
     
     printf( "PI: %.6lf\n", pi );
@@ -58,6 +59,7 @@ void parallelGaussLegendre(){
 
 void *calcAB(void *ptr)
 {
+	/*Locks the structure to calculete A and B values*/
 	pthread_mutex_lock (&mutex);
 
 	GaussLegStruct *glstr = (GaussLegStruct*)ptr;
@@ -65,6 +67,7 @@ void *calcAB(void *ptr)
 	glstr->a = (glstr->an+glstr->b)/2.0;
 	glstr->b = sqrt( (glstr->an)*(glstr->b) );
 
+	/*Unlocks the structure*/
 	pthread_mutex_unlock (&mutex);
 	
 	return NULL;
@@ -72,12 +75,14 @@ void *calcAB(void *ptr)
 
 void *calcTP(void *ptr)
 {
+	/*Locks the structure to calculate T and P values*/
 	pthread_mutex_lock (&mutex);
 	
 	GaussLegStruct *glstr = (GaussLegStruct*)ptr;
     glstr->t = (glstr->t) - (glstr->p)*pow( ((glstr->an) - (glstr->a)), 2.0 );
     glstr->p = 2*(glstr->p);
 
+    /*Unlocks the structure*/
 	pthread_mutex_unlock (&mutex);
 
     return NULL;

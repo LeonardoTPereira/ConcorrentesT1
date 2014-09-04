@@ -10,6 +10,7 @@ void montecarlo()
 
 	srand(time(NULL));
 	count=0;
+  /*Calculates Pi using the Monte Carlo algorithm*/
 	for ( i=0; i<niter; i++) {
     	x = (double)rand()/RAND_MAX;
     	y = (double)rand()/RAND_MAX;
@@ -17,5 +18,5 @@ void montecarlo()
     	if (z<=1) count++;
     }
    	pi=(double)count/niter*4;
-   	printf("%f\n", pi);
+   	printf("%.6f\n", pi);
 }

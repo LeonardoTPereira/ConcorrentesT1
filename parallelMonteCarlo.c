@@ -11,9 +11,9 @@ void parallelMonteCarlo(){
 
 	monteCarloStruct *mCS[NTHREADS];
 
+	/*Allocates structures to be passed on threads and sets their size of iteractions*/
 	for(i = 0; i < NTHREADS; i++)
 	{	
-		printf("adicionado %d thread\n", i);
 		mCS[i] = (monteCarloStruct *)calloc(1, sizeof(monteCarloStruct));
 		mCS[i]->size = (MAXIT/NTHREADS);
 		ret[i] = pthread_create(&thread[i], NULL, itself, (void*) mCS[i]);
@@ -24,18 +24,22 @@ void parallelMonteCarlo(){
 		}
 	}
 
+	/*Wait for all threads to finish*/
 	for(i = 0; i < NTHREADS; i++)
 	{
 		pthread_join(thread[i], NULL);
 	}
-	printf("saida\n");
+
+	/*Sums the results and free the structures*/
 	for(i = 0; i < NTHREADS; i++)
 	{
 		result+=mCS[i]->result;
 		free(mCS[i]);
 	}
+	
+	/*Gives the result by the mean of the sum of the result of each thread*/
 	result = result/NTHREADS;
-	printf("%f\n", result);
+	printf("PI: %.6f\n", result);
 	pthread_exit(NULL);
 	exit(EXIT_SUCCESS);
 
@@ -49,17 +53,14 @@ void *itself(void *ptr){
 	struct BoxMullerState state;
 
 	initBoxMullerState(&state);
-	
+	/*Calculates PI using the Monte Carlo method*/
 	count=0;
 	for ( i=0; i<mCS->size; i++) {
     	if(!boxMullerRandom(&state))
     		count++;
     }
+   	
    	mCS->result = (count/(double)mCS->size)*4;
-   	//printf("%f\n", mCS->result);
 
-    printf("exit\n");
-   	mCS->result = (double)count/(mCS->size)*4;
-   	printf("%f\n", mCS->result);
    	return NULL;
 }
