@@ -5,10 +5,12 @@
 #include "parallelBorwein.h"
 #include "parallelGaussLegendre.h"
 #include "blackscholes.h"
-#define method 6
+#include <string.h>
+//#define method 6
 
 int main(int argc, char *argv[]){
 	
+	int method = atoi(argv[1]);
 
 	switch(method){
 		case 0://Gauss-Legendre

@@ -1,5 +1,18 @@
+CC=gcc
+
+SRCS= main.c rand_bm.c gaussLegendre.c borwein.c montecarlo.c parallelMonteCarlo.c parallelBorwein.c parallelGaussLegendre.c blackscholes.c
+
+FLAGS= -g -Wall
+
+LIBS= -pthread -lgmp -lm
+
+NAME=calcPi
+
+SCRIPT=script.sh
+
 all:
-	gcc -o calcPi main.c rand_bm.c gaussLegendre.c borwein.c montecarlo.c parallelMonteCarlo.c parallelBorwein.c parallelGaussLegendre.c blackscholes.c -g -pthread -lgmp -lm -Wall
+	$(CC) -o $(NAME) $(FLAGS) $(SRCS) $(LIBS)
 run:
-	/usr/bin/time -f"%e" ./calcPi < entrada.txt 
-#> saida.txt
+	sh $(SCRIPT) $(NAME)
+clean:
+	rm -rf *.o saida*.txt
