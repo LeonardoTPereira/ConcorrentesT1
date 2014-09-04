@@ -5,7 +5,8 @@ pthread_mutex_t mutex;
 void parallelGaussLegendre(){
 	pthread_t threads[NTHREADS];
 
-	int ret[NTHREADS], i;
+	int ret[NTHREADS];
+	long int i;
 
 	double pi;
 
