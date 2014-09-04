@@ -7,11 +7,19 @@
 #include "blackscholes.h"
 #include "parallelBlackScholes.h"
 #include <string.h>
-//#define method 6
 
 int main(int argc, char *argv[]){
-	
+
+	double S, E, r, sigma, T;
+	int M;
 	int method = atoi(argv[1]);
+	
+	scanf("%lf", &S);
+	scanf("%lf", &E);
+	scanf("%lf", &r);
+	scanf("%lf", &sigma);
+	scanf("%lf", &T);
+	scanf("%d", &M);
 
 	switch(method){
 		case 0://Gauss-Legendre
@@ -33,10 +41,10 @@ int main(int argc, char *argv[]){
 			parallelGaussLegendre();
 			break;
 		case 6://Black Scholes
-			blackScholes(100.0, 110.0, 10.0, 1.0, 1.0, 100000);
+			blackScholes(S, E, r, sigma, T, M);
 			break;
 		case 7://Parallel Black Scholes
-			parallelBlkScholes(100.0, 110.0, 10.0, 1.0, 1.0, 100000);
+			parallelBlkScholes(S, E, r, sigma, T, M);
 			break;
 	}
 
