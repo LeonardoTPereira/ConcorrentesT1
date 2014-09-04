@@ -4,8 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-
-#define it pow(10, 2)
+#include "utils.h"
 
 void gl();
 

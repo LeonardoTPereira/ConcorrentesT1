@@ -16,7 +16,9 @@ void blackScholes(double S, double E, double r, double sigma, double T, int M)
 {
 	int i;
 	double t, mean = 0.0, stddev, confwidth, confmin, confmax;
-	double trials[M];
+	double *trials;
+	
+	trials = (double *) malloc(M*sizeof(double));
 
 	struct BoxMullerState state;
 	initBoxMullerState(&state);
