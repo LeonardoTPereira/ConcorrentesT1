@@ -29,6 +29,7 @@ void parallelBorwein(){
 	for( i = 0; i < NTHREADS; i++)
 	{
 		result += bs[i]->result;
+		free(bs[i]);
 	}
 	
 	printf("PI = %.6Lf\n", result);

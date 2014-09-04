@@ -32,6 +32,7 @@ void parallelMonteCarlo(){
 	for(i = 0; i < NTHREADS; i++)
 	{
 		result+=mCS[i]->result;
+		free(mCS[i]);
 	}
 	result = result/NTHREADS;
 	printf("%f\n", result);

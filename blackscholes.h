@@ -5,6 +5,6 @@
 #include <math.h>
 #include <time.h>
 #include "rand_bm.h"
-double stdDev(long double trials[], long double mean, int M);
+double stdDev(double trials[], double mean, int M);
 void blackScholes(double S, double E, double r, double sigma, double T, int M);
 #endif

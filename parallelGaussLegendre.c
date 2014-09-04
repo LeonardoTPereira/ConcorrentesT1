@@ -48,6 +48,8 @@ void parallelGaussLegendre(){
     
     printf( "PI: %.6lf\n", pi );
 
+    free(glstruct);
+
     pthread_exit(NULL);
 
 	exit(EXIT_SUCCESS);	

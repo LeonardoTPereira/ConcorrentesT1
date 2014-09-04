@@ -5,6 +5,7 @@
 #include "parallelBorwein.h"
 #include "parallelGaussLegendre.h"
 #include "blackscholes.h"
+#include "parallelBlackScholes.h"
 #include <string.h>
 //#define method 6
 
@@ -33,6 +34,9 @@ int main(int argc, char *argv[]){
 			break;
 		case 6://Black Scholes
 			blackScholes(100.0, 110.0, 10.0, 1.0, 1.0, 100000);
+			break;
+		case 7://Parallel Black Scholes
+			parallelBlkScholes(100.0, 110.0, 10.0, 1.0, 1.0, 100000);
 			break;
 	}
 
