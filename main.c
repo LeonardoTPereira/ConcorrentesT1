@@ -14,12 +14,6 @@ int main(int argc, char *argv[]){
 	int M;
 	int method = atoi(argv[1]);
 	
-	scanf("%lf", &S);
-	scanf("%lf", &E);
-	scanf("%lf", &r);
-	scanf("%lf", &sigma);
-	scanf("%lf", &T);
-	scanf("%d", &M);
 
 	switch(method){
 		case 0://Gauss-Legendre
@@ -42,9 +36,23 @@ int main(int argc, char *argv[]){
 			parallelGaussLegendre();
 			break;
 		case 6://Black Scholes
+			scanf("%lf", &S);
+			scanf("%lf", &E);
+			scanf("%lf", &r);
+			scanf("%lf", &sigma);
+			scanf("%lf", &T);
+			scanf("%d", &M);
+
 			blackScholes(S, E, r, sigma, T, M);
 			break;
 		case 7://Parallel Black Scholes
+			scanf("%lf", &S);
+			scanf("%lf", &E);
+			scanf("%lf", &r);
+			scanf("%lf", &sigma);
+			scanf("%lf", &T);
+			scanf("%d", &M);
+
 			parallelBlkScholes(S, E, r, sigma, T, M);
 			break;
 	}
