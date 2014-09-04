@@ -2,9 +2,22 @@
 #define _PARALLELBLACKSCHOLES_H_
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
-#include <time.h>
+#include <pthread.h>
 #include "rand_bm.h"
-double stdDev(long double trials[], long double mean, int M);
+#include "utils.h"
+
+typedef struct{
+	int size;
+	double S, E, r, sigma, T;
+	double *trials;
+	double sum;
+}blkScholesStruct;
+
 void parallelBlackScholes(double S, double E, double r, double sigma, double T, int M);
+
+
+void parallelBlkScholes();
+
+void *blkScholesItself(void *ptr);
+
 #endif

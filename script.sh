@@ -7,7 +7,7 @@ else
 	NAME='calcPi'
 fi 
 
-for i in {0..6}
+for i in {0..7}
 do
 	EXIT=$S1$i$S2
 	for j in {0..9}

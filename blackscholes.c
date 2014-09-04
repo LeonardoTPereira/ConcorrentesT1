@@ -1,5 +1,6 @@
 #include "blackscholes.h"
-double stdDev(long double trials[], long double mean, int M)
+/*Calculates the standard deviation from the results given by the Black Scholes trials*/
+double stdDev(double trials[], double mean, int M)
 {
 	double stddev = 0.0;
 	int i;
@@ -14,12 +15,13 @@ double stdDev(long double trials[], long double mean, int M)
 void blackScholes(double S, double E, double r, double sigma, double T, int M)
 {
 	int i;
-	long double t, mean = 0.0, stddev, confwidth, confmin, confmax;
-	long double trials[M];
+	double t, mean = 0.0, stddev, confwidth, confmin, confmax;
+	double trials[M];
 
 	struct BoxMullerState state;
 	initBoxMullerState(&state);
 	
+	/*Calculates the trials from Black Scholes*/
 	for(i = 0; i < M; i++)
 	{
 		t = S*exp((r-((1.0/2.0)*pow(sigma, 2.0)))*T + sigma*sqrt(T)*boxMullerRandom2(&state));
@@ -30,6 +32,7 @@ void blackScholes(double S, double E, double r, double sigma, double T, int M)
 			trials[i] = 0.0;
 		mean += trials[i];
 	}
+	/*Calculates mean, standard deviation and the confidence of Black Scholes trials*/
 	mean = mean/(double)M;
 	stddev = stdDev(trials, mean, M);
 	confwidth = 1.96*stddev/sqrt(M);
@@ -41,5 +44,5 @@ void blackScholes(double S, double E, double r, double sigma, double T, int M)
 	printf("sigma \t%lf\n", sigma);
 	printf("T \t%lf\n", T);
 	printf("M \t%d\n", M);
-	printf("Confidence interval: (%Lf, %Lf)\n", confmin, confmax);
+	printf("Confidence interval: (%lf, %lf)\n", confmin, confmax);
 }

@@ -1,6 +1,6 @@
 CC=gcc
 
-SRCS= main.c rand_bm.c gaussLegendre.c borwein.c montecarlo.c parallelMonteCarlo.c parallelBorwein.c parallelGaussLegendre.c blackscholes.c
+SRCS= main.c rand_bm.c gaussLegendre.c borwein.c montecarlo.c parallelMonteCarlo.c parallelBorwein.c parallelGaussLegendre.c blackscholes.c parallelBlackScholes.c
 
 FLAGS= -g -Wall
 

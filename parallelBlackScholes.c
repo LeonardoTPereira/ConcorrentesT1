@@ -1,36 +1,60 @@
 #include "parallelBlackScholes.h"
-double stdDev(long double trials[], long double mean, int M)
+#include "blackscholes.h"
+
+void parallelBlkScholes(double S, double E, double r, double sigma, double T, int M)
 {
-	double stddev = 0.0;
-	int i;
-	for(i = 0; i < M; i++)
-	{
-		stddev += pow((trials[i] - mean),2);
+	pthread_t thread[NTHREADS];
+
+	double result = 0.0, trials[M], mean, stddev, confwidth, confmin, confmax;
+
+	int ret[NTHREADS], i, j, count;
+
+	blkScholesStruct *blkSS[NTHREADS];
+
+	/*Creates the structures which will be passed to the threads, initialize their variables, and create the threads*/
+	for(i = 0; i < NTHREADS; i++)
+	{	
+		blkSS[i] = (blkScholesStruct *)calloc(1, sizeof(blkScholesStruct));
+		
+		blkSS[i]->S = S;
+		blkSS[i]->E = E;
+		blkSS[i]->r = r;
+		blkSS[i]->sigma = sigma;
+		blkSS[i]->T = T;
+		blkSS[i]->size = (M/(double)NTHREADS);
+		blkSS[i]->trials = (double*)calloc(blkSS[i]->size+1, sizeof(double));
+
+		ret[i] = pthread_create(&thread[i], NULL, blkScholesItself, (void*) blkSS[i]);
+
+		if(ret[i]){
+			fprintf(stderr,"Error - pthread_create() return code: %d\n",ret[i]);
+			exit(EXIT_FAILURE);
+		}
 	}
-	stddev = sqrt(stddev/((double)M-1));
-	return stddev;
-}
 
-void blackScholes(double S, double E, double r, double sigma, double T, int M)
-{
-	int i;
-	long double t, mean = 0.0, stddev, confwidth, confmin, confmax;
-	long double trials[M];
+	/*Wait for all the threads to finish*/
+	for(i = 0; i < NTHREADS; i++)
+	{
+		pthread_join(thread[i], NULL);
+	}
 
-	struct BoxMullerState state;
-	initBoxMullerState(&state);
+	count = 0;
 	
-	for(i = 0; i < M; i++)
+	/*sums up all the results from the threads, and also place all the trials result in a static vector, 
+	releasing the memory from the structures*/
+	for(i = 0; i < NTHREADS; i++)
 	{
-		t = S*exp((r-((1.0/2.0)*pow(sigma, 2.0)))*T + sigma*sqrt(T)*boxMullerRandom2(&state));
-
-		if((t-E) > 0.0)
-			trials[i] = exp((-r)*T)*(t-E);
-		else
-			trials[i] = 0.0;
-		mean += trials[i];
+		result+=blkSS[i]->sum;
+		for(j = 0; j < blkSS[i]->size; j++)
+		{
+			trials[count++] = blkSS[i]->trials[j];
+		}
+		free(blkSS[i]->trials);
+		free(blkSS[i]);
 	}
-	mean = mean/(double)M;
+	
+	/*Does the final calculations and gives the result*/
+	mean = result/(double)M;
 	stddev = stdDev(trials, mean, M);
 	confwidth = 1.96*stddev/sqrt(M);
 	confmin = mean - confwidth;
@@ -41,5 +65,36 @@ void blackScholes(double S, double E, double r, double sigma, double T, int M)
 	printf("sigma \t%lf\n", sigma);
 	printf("T \t%lf\n", T);
 	printf("M \t%d\n", M);
-	printf("Confidence interval: (%Lf, %Lf)\n", confmin, confmax);
+	printf("Confidence interval: (%lf, %lf)\n", confmin, confmax);
+	
+	/*end the threads*/
+	pthread_exit(NULL);
+	exit(EXIT_SUCCESS);
 }
+
+void *blkScholesItself(void *ptr){
+	/*Cast the received pointer*/
+	blkScholesStruct *blkSS = (blkScholesStruct*) ptr;
+
+	int i;
+	double t;
+	struct BoxMullerState state;
+
+	initBoxMullerState(&state);
+
+	blkSS->sum = 0;
+
+	/*Does the calculations from the Black Scholes method*/
+	for(i = 0; i < blkSS->size; i++)
+	{
+		t = blkSS->S*exp((blkSS->r-((1.0/2.0)*pow(blkSS->sigma, 2.0)))*blkSS->T + blkSS->sigma*sqrt(blkSS->T)*boxMullerRandom2(&state));
+
+		if((t-blkSS->E) > 0.0)
+			blkSS->trials[i] = exp((-blkSS->r)*blkSS->T)*(t-blkSS->E);
+		else
+			blkSS->trials[i] = 0.0;
+		blkSS->sum += blkSS->trials[i];
+	}
+   	return NULL;
+}
+
