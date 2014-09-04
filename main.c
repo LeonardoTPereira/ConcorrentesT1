@@ -38,6 +38,7 @@ int main(int argc, char *argv[]){
 			parallelBorwein();
 			break;
 		case 5://Parallel Gauss-Legendre
+			printf("Gauss-Legendre\n");
 			parallelGaussLegendre();
 			break;
 		case 6://Black Scholes

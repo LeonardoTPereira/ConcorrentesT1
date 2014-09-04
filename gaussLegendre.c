@@ -1,7 +1,4 @@
 #include "gaussLegendre.h"
-
-#define ITEMAX pow(10, 9)
-
 void gl()
 {
     int i;
@@ -15,7 +12,7 @@ void gl()
 	p = 1;
 
     /*Calculates Pi using Gauss-Legendre algorithm*/
-	for( i = 0 ; i <= ITEMAX ; i++ )
+	for( i = 0 ; i <= MAXIT ; i++ )
     {
         an = a;
         a = ( an+b )/2.0;

@@ -13,6 +13,6 @@ SCRIPT=script.sh
 all:
 	$(CC) -o $(NAME) $(FLAGS) $(SRCS) $(LIBS)
 run:
-	sh $(SCRIPT) $(NAME)
+	./$(SCRIPT) $(NAME)
 clean:
 	rm -rf *.o saida*.txt
