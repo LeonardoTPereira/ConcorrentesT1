@@ -24,6 +24,7 @@ void parallelGaussLegendre(){
 	/*Creates the threads to calculate each part of the algorithm at each iteration, until the algorithm is over*/
 	for(i = 0; i < MAXIT; i++)
 	{
+		pthread_mutex_lock (&mutex);
 		ret[0] = pthread_create(&threads[0], NULL, calcAB, (void*) glstruct);
 
 		if(ret[0]){
@@ -57,7 +58,6 @@ void parallelGaussLegendre(){
 void *calcAB(void *ptr)
 {
 	/*Locks the structure to calculete A and B values*/
-	pthread_mutex_lock (&mutex);
 	
 	GaussLegStruct *glstr = (GaussLegStruct*)ptr;
 	glstr->an = glstr->a;
