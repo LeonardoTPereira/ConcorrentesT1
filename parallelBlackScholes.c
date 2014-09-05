@@ -22,7 +22,7 @@ void parallelBlkScholes(double S, double E, double r, double sigma, double T, in
 		blkSS[i]->sigma = sigma;
 		blkSS[i]->T = T;
 		blkSS[i]->size = (M/(double)NTHREADS);
-		blkSS[i]->trials = (double*)calloc(blkSS[i]->size+1, sizeof(double));
+		blkSS[i]->trials = (double*)calloc(blkSS[i]->size, sizeof(double));
 
 		ret[i] = pthread_create(&thread[i], NULL, blkScholesItself, (void*) blkSS[i]);
 
